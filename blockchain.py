@@ -1,6 +1,8 @@
 import hashlib
 import json
+from textwrap import dedent
 from time import time
+
 
 
 class Blockchain(object):
@@ -40,4 +42,17 @@ class Blockchain(object):
     @property
     def last_block(self):
         pass
+    
+    def proof_of_work(self,last_proof):
+        froof = 0
+        while self.valid_proof(last_proof,proof) is False:
+            proof +=1
+        return proof
+
+    @staticmethod
+    def valid_proof(last_proof,proof):
+        guess = f'{last_proof}{proof}'.encode()
+        guess_hash = hashlib.shake_256(guess).hexdigest()
+        return guess_hash[:4] == "000"
+
 
